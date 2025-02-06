@@ -1,0 +1,8 @@
+nasm -f elf64 -o cwd/init.o lib/core/init.asm
+nasm -f elf64 -o cwd/syscall.o lib/core/syscall.asm
+
+gcc -o c -static -std=c99 -ffreestanding -nostdlib -nodefaultlibs -z noexecstack -g \
+    -e __init_c1 \
+    main.c \
+    cwd/init.o \
+    cwd/syscall.o
