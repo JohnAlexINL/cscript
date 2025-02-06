@@ -1,0 +1,6 @@
+mkdir -p bin
+gcc -Os -e __init_c1 -o bin/ours tests/cs.c runtime.o -static -ffreestanding -nostdlib -nodefaultlibs \
+    -Wl,--gc-sections -Wl,--strip-all -Wl,--no-dynamic-linker -Wl,--build-id=none -Wl,-z,norelro
+gcc -o bin/theirs tests/normal.c -static
+tcc -o bin/ours_tcc -Wl,-init=__init_c1 tests/cs.c runtime.o
+gcc -g -O0 -e __init_c1 -o bin/ours_debug tests/cs.c runtime.o -ffreestanding -nostdlib -nodefaultlibs -nostartfiles -static

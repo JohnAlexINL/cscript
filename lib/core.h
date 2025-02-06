@@ -12,12 +12,20 @@ i32 main(i32 argc, u8 **argv);
 #define STDOUT          1
 #define STDERR          2
 
-extern void __syscall_read      (u32 fd, u8 *buf, i32 count);
-extern void __syscall_write     (u32 fd, u8 *buf, i32 count);
-extern void __syscall_exit      (i32 code);
+extern void     __syscall_read      (u32 fd, u8 *buf, i32 count);
+extern void     __syscall_write     (u32 fd, u8 *buf, i32 count);
+extern void     __syscall_open      (u8 *filename, i32 flags, i32 mode);
+extern void     __syscall_close     (u32 fd);
+extern void *   __syscall_mmap      (u8 *addr, u32 length, u32 prot, u32 flags, u32 fd, u32 offset);
+extern void *   __syscall_munmap    (u8 *addr, u32 length);
+extern void     __syscall_execve    (u8 *filename, u8 **argv, u8 **envp);
+extern void     __syscall_exit      (i32 code);
 
-#include "core/debug.h"
-
+/*
+    When our binary is first called, the stack will contain,
+    in order, `int argc`, and a `char * argv`,
+    which we need to convert into `char ** argv`
+*/
 u32 __init_c1_wsp(u8 *string){ i32 i=0; while(string[i]!=' ' && string[i]!=0) { i++; } return i; }
 void __init_c2(i32 argc, u8 *head) {
     i32 i; i32 len; u8 *argv[argc];

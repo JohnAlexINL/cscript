@@ -1,6 +1,7 @@
-i32 strnlen(u8 *string, i32 max) {
-    i32 i;
-    for(i=0;i<max;i++) {
-        if ( string[i] == 0 ) { return i; }
-    }   return max;
-}
+#include "std/alloc.c"
+#include "std/string.c"
+#include "std/strcast.c"
+#include "std/mem.c"
+
+void *brk (u64 heapsize) { return __alloc(heapsize); }
+void exit(i32 status){ __syscall_exit(status); }
