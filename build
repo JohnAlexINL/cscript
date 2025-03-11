@@ -10,14 +10,17 @@ ld -z noexecstack -relocatable -o lib/core.o tmp/init.o tmp/syscall.o tmp/uncore
 
 # Build the helper libraries
 gcc -ffreestanding -nostdlib -nodefaultlibs -c -std=c99 src/lib/lib.c -o lib/lib.o
+gcc -ffreestanding -nostdlib -nodefaultlibs -c -std=c99 src/rand/rand.c -o lib/rand.o
 
 # Build our tests
-gcc -o ./tmp/core -e __init ./tests/core.c lib/core.o -ffreestanding -nostdlib -nodefaultlibs -nostartfiles -static
-gcc -o ./tmp/lib -e __init ./tests/lib.c lib/core.o lib/lib.o -ffreestanding -nostdlib -nodefaultlibs -nostartfiles -static
+gcc -o ./tmp/clib_core -e __init ./tests/core.c lib/core.o -ffreestanding -nostdlib -nodefaultlibs -nostartfiles -static -z noexecstack
+gcc -o ./tmp/clib_lib -e __init ./tests/lib.c lib/core.o lib/lib.o lib/rand.o -ffreestanding -nostdlib -nodefaultlibs -nostartfiles -static -z noexecstack
+gcc -o ./tmp/glibc_core ./tests/glibc_core.c -static
+gcc -o ./tmp/glibc_lib ./tests/glibc_lib.c -static
 
 # Then size them up
-sizeof ./tmp/core ./tmp/lib
-mv ./tmp/lib ./vm
+cd tmp
+sizeof *
 
 # Cleanup
 rm -rf ./tmp
