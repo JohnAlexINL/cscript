@@ -44,10 +44,10 @@ simple scripts using our standard library versus
 `glibc` and difference is massive.
 
 ```bash
-clib_core                        14 kilobytes  (14632 bytes)
-clib_lib                         19 kilobytes  (19728 bytes)
-glibc_core                       744 kilobytes  (762072 bytes)
-glibc_lib                        749 kilobytes  (767416 bytes)
+clib_core    14 kilobytes 
+clib_lib     19 kilobytes 
+glibc_core   744 kilobytes
+glibc_lib    749 kilobytes
 ```
 
 > [!NOTE]
@@ -81,6 +81,7 @@ standard lib stuff.
 |x| munmap | `void *addr`, `u32 length` |  |
 |x| execve | `char *pathname`, `char *argv[]`, `char *envp[]` |  |
 |x| exit | `i32 status` |  |
+|x| fstat | `u32 fd`, `stat *` | |
 |_| fork |  |
 |_| socket | `i32 domain`, `i32 type`, `i32 protocol` |
 |_| connect | `i32 sockfd`, `const void *addr`, `u32 addrlen` |
@@ -96,27 +97,23 @@ standard lib stuff.
 |--|--|--|--|
 |x| print | `char *` |  |
 |x| printf | `char *fmt` `void *[] ...` | `...` is a list of pointers, not values |
-|_| strfmt | `char *dest`, `int size`, `char *fmt`, `void *[]...` | _see: [`snprintf`](https://www.geeksforgeeks.org/snprintf-c-library/) |
+|x| strfmt | `char *fmt`, `void *[]...` | |
 |x| strlen | `char *`, `int max` | |
-|_| strcpy | `char *dest`, `char *src`, `int max` | |
-|_| strcat | `char *base`, `char *adder`, `int max` | |
-|_| strcmp | `char *base`, `char *adder`, `int max`  | |
-|_| memcpy | `void *dest`, `void *src`, `int size` | |
-|_| memcmp | `void *base`, `void *adder`, `int size` | |
-|_| | | implement `%b` for binary values |
-|_| | | implement `%l` | 
-|_| | | move current `%f` to `%e`, implement `%f` |
-|_| | | handle doubles |
+|x| strcpy | `char *dest`, `char *src`, `int max` | |
+|x| strcat | `char *base`, `char *adder`, `int max` | |
+|x| strcmp | `char *base`, `char *adder`, `int max`  | |
+|x| memcpy | `void *dest`, `void *src`, `int size` | |
+|x| memcmp | `void *base`, `void *adder`, `int size` | |
 |x| string_hex32 | `u32` | |
 |x| string_u32 | `u32` | |
 |x| string_i32 | `i32` | |
-|x| string_f32 | `f32`/`f64` | _rename function_ |
+|_| string_f32 | `f32`/`f64` | _rename function_ |
 |x| string_e32 | `f32`/`f64` | _rename function_ |
 |_| string_b32 | `u32` | |
-|_| file_read | `char *filename` | _checks size, allocates memory, and returns filled buffer_
-|_| file_write | `char *filename`, `char *buffer`, `int size` | |
+|x| file_read | `char *filename` | _checks size, allocates memory, and returns filled buffer_
+|x| file_write | `char *filename`, `char *buffer`, `int size` | |
 |_| file_append | `char *filename`, `char *buffer`, `int size` | |
-|_| file_size | `char *filename` | |
+|x| file_size | `char *filename` | |
 
 |✓| `types.h` Function | Args | Notes |
 |--|--|--|--|

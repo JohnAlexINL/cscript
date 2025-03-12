@@ -1,3 +1,6 @@
 #include "../core.h"
 #include "strcast.c"
+#include "strmem.c"
 #include "print.c"
+#include "strfmt.c"
+#include "file.c"

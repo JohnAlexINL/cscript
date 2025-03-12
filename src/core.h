@@ -23,6 +23,7 @@ typedef u32 bool;
 #define SYSCALL_WRITE   1
 #define SYSCALL_OPEN    2
 #define SYSCALL_CLOSE   3
+#define SYSCALL_FSTAT   5
 #define SYSCALL_EXECVE  59
 #define SYSCALL_EXIT    60
 
@@ -30,22 +31,24 @@ typedef u32 bool;
 #define STDOUT          1
 #define STDERR          2
 
-extern void *   brk         (void *address);
-extern bool     memcheck    (void *ptr, size_t size);
-extern i32      __syscall_read        (u32 fd, u8 *buf, i32 count);
-extern i32      __syscall_write       (u32 fd, u8 *buf, i32 count);
-extern i32      __syscall_open        (u8 *filename, i32 flags, i32 mode);
-extern i32      __syscall_close       (u32 fd);
-extern void *   __syscall_mmap        (u8 *addr, u32 length, u32 prot, u32 flags, u32 fd, u32 offset);
-extern void *   __syscall_munmap      (u8 *addr, u32 length);
-extern void     __syscall_execve      (u8 *filename, u8 **argv, u8 **envp);
-extern void     __syscall_exit        (i32 code);
+extern void *   brk                     (void *address);
+extern bool     memcheck                (void *ptr, size_t size);
+extern i32      __syscall_read          (u32 fd, u8 *buf, i32 count);
+extern i32      __syscall_write         (u32 fd, u8 *buf, i32 count);
+extern i32      __syscall_open          (u8 *filename, i32 flags, i32 mode);
+extern i32      __syscall_close         (u32 fd);
+extern void *   __syscall_mmap          (u8 *addr, u32 length, u32 prot, u32 flags, u32 fd, u32 offset);
+extern void *   __syscall_munmap        (u8 *addr, u32 length);
+extern void     __syscall_execve        (u8 *filename, u8 **argv, u8 **envp);
+extern void     __syscall_exit          (i32 code);
+extern i32      __syscall_fstat         (u32 fd, void *buffer);
 
-#define read __syscall_read
-#define write __syscall_write
-#define open __syscall_open
-#define close __syscall_close
-#define mmap __syscall_mmap
-#define munmap __syscall_munmap
-#define execve __syscall_execve
-#define exit __syscall_exit
+#define read    __syscall_read
+#define write   __syscall_write
+#define open    __syscall_open
+#define close   __syscall_close
+#define mmap    __syscall_mmap
+#define munmap  __syscall_munmap
+#define execve  __syscall_execve
+#define exit    __syscall_exit
+#define fstat   __syscall_fstat

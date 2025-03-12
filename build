@@ -21,6 +21,7 @@ gcc -o ./tmp/glibc_lib ./tests/glibc_lib.c -static
 # Then size them up
 cd tmp
 sizeof *
+cd ..
 
 # Cleanup
-rm -rf ./tmp
+rm -rf tmp
