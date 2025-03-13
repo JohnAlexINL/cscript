@@ -13,6 +13,10 @@ extern char *   __strfmt(char *buffer, u32 max, char *fmt, void *args[]);
 extern i32      strlen (char *string, i32 max);
 extern void     strcpy (char *dest, char *src, i32 max);
 extern void     strcat (char *dest, char *src, i32 max);
-extern void     memcpy (char *dest, char *src, i32 max);
 extern i32      strcmp (char *dest, char *src, i32 max);
+extern void     memcpy (char *dest, char *src, i32 max);
 extern bool     memcmp (char *dest, char *src, i32 max);
+
+extern i64      file_size(char *filename);
+extern char *   file_read(char *filename);
+extern bool     file_write(char *filename, char *content, u64 size);
