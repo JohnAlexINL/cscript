@@ -19,4 +19,4 @@ extern bool     memcmp (char *dest, char *src, i32 max);
 
 extern i64      file_size(char *filename);
 extern i64      file_read(char *filename, char *buffer, i64 max);
-extern bool     file_write(char *filename, char *content, i64 size);
+extern i64      file_write(char *filename, char *content, i64 size);
