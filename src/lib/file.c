@@ -11,7 +11,7 @@ char *file_read(char *filename, char *buffer, i64 max) {
     const i32 flags_rw = 2; const i32 modes = 0;
     i64 filesize = file_size(filename);
     if ( filesize <= 0 ) { print("file_read: file nil sized\n"); return NULL; }
-    if ( filesize < max ) { print("file_read: file smaller than buffer\n"); return NULL; }
+    if ( filesize >= max ) { print("file_read: file smaller than buffer\n"); return NULL; }
     u32 fd = open(filename, flags_rw, modes); if ( fd == -1 ) { return NULL; }
     i32 rsize = read(fd, buffer, filesize); if ( rsize != filesize ) { close(fd); return NULL; }
     *((char *)buffer + filesize) = '\0';
