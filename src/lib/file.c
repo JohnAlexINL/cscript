@@ -1,10 +1,9 @@
 i64 file_size(char *filename) {
-    const i32 flags_rw = 2; const i32 modes = 0;
-    const i32 statfs_size = 144; const i32 statfs_sizeoffset = 8;
-    void *statfs = brk(NULL); brk(statfs + statfs_size);
-    i32 fd = open(filename, flags_rw, modes); if ( fd == -1 ) { return -1; }
-    fstat(fd, statfs); i64 size = *(i64*)(statfs + statfs_sizeoffset);
-    close(fd); brk(statfs);
+    const int OFFSET = 0; const int SEEK_END = 2;
+    i32 fd = open(filename, 0, 0);
+    if ( fd == -1 ) { return -1; }
+    i64 size = lseek(fd, OFFSET, SEEK_END);
+    close(fd);
     return size;
 }
 

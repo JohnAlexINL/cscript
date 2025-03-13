@@ -17,6 +17,7 @@ gcc -o ./tmp/clib_core -e __init ./tests/core.c lib/core.o -ffreestanding -nostd
 gcc -o ./tmp/clib_lib -e __init ./tests/lib.c lib/core.o lib/lib.o lib/rand.o -ffreestanding -nostdlib -nodefaultlibs -nostartfiles -static -z noexecstack
 gcc -o ./tmp/glibc_core ./tests/glibc_core.c -static
 gcc -o ./tmp/glibc_lib ./tests/glibc_lib.c -static
+gcc -o ./tmp/filec -e __init ./tests/file.c ./lib/core.o ./lib/lib.o -ffreestanding -nostdlib -nodefaultlibs -nostartfiles -static -z noexecstack
 
 # Then size them up
 cd tmp
@@ -24,4 +25,4 @@ sizeof *
 cd ..
 
 # Cleanup
-rm -rf tmp
+# rm -rf tmp

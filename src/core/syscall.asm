@@ -14,7 +14,7 @@ section .text
     global __syscall_write
     global __syscall_open
     global __syscall_close
-    global __syscall_fstat
+    global __syscall_lseek
     global __syscall_mmap
     global __syscall_munmap
     global __syscall_execve
@@ -24,7 +24,7 @@ __syscall_read:     syscall 0
 __syscall_write:    syscall 1
 __syscall_open:     syscall 2
 __syscall_close:    syscall 3
-__syscall_fstat:    syscall 5
+__syscall_lseek:    syscall 8
 __syscall_mmap:     syscall 9
 __syscall_munmap:   syscall 11
 __syscall_execve:   syscall 59
