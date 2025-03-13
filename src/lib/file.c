@@ -7,15 +7,14 @@ i64 file_size(char *filename) {
     return size;
 }
 
-char *file_read(char *filename, char *buffer, i64 max) {
+int file_read(char *filename, char *buffer, i64 max) {
     const i32 flags_rw = 2; const i32 modes = 0;
     i64 filesize = file_size(filename);
-    if ( filesize <= 0 ) { print("file_read: file nil sized\n"); return NULL; }
-    if ( filesize >= max ) { print("file_read: file smaller than buffer\n"); return NULL; }
-    u32 fd = open(filename, flags_rw, modes); if ( fd == -1 ) { return NULL; }
-    i32 rsize = read(fd, buffer, filesize); if ( rsize != filesize ) { close(fd); return NULL; }
+    if ( filesize <= 0 ) { print("file_read: file nil sized\n"); return -1; }
+    u32 fd = open(filename, flags_rw, modes); if ( fd == -1 ) { return -2; }
+    i32 rsize = read(fd, buffer, filesize); if ( rsize != filesize ) { close(fd); return -3; }
     *((char *)buffer + filesize) = '\0';
-    close(fd); return buffer;
+    close(fd); return rsize;
 }
 
 bool file_write(char *filename, char *content, i64 size) {
