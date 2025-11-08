@@ -24,5 +24,8 @@ cd tmp
 sizeof *
 cd ..
 
+# Copy the headers into the lib folder
+cp src/*.h lib/
+
 # Cleanup
-# rm -rf tmp
+rm -rf tmp
