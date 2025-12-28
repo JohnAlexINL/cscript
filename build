@@ -2,26 +2,19 @@
 mkdir -p lib
 mkdir -p tmp
 
-# Build the runtime core
-nasm -f elf64 -o tmp/init.o src/core/init.asm
-nasm -f elf64 -o tmp/syscall.o src/core/syscall.asm
-gcc -ffreestanding -nostdlib -nodefaultlibs -c -std=c99 src/core/core.c -o tmp/uncore.o
-ld -z noexecstack -relocatable -o lib/core.o tmp/init.o tmp/syscall.o tmp/uncore.o
+# Build the runtime
+nasm -f elf64 -o tmp/init.o src/init.asm
+nasm -f elf64 -o tmp/syscall.o src/syscall.asm
 
-# Build the helper libraries
-gcc -ffreestanding -nostdlib -nodefaultlibs -c -std=c99 src/lib/lib.c -o lib/lib.o
-gcc -ffreestanding -nostdlib -nodefaultlibs -c -std=c99 src/rand/rand.c -o lib/rand.o
-
-# Build our tests
-gcc -o ./tmp/clib_core -e __init ./tests/core.c lib/core.o -ffreestanding -nostdlib -nodefaultlibs -nostartfiles -static -z noexecstack
-gcc -o ./tmp/clib_lib -e __init ./tests/lib.c lib/core.o lib/lib.o lib/rand.o -ffreestanding -nostdlib -nodefaultlibs -nostartfiles -static -z noexecstack
-gcc -o ./tmp/glibc_core ./tests/glibc_core.c -static
-gcc -o ./tmp/glibc_lib ./tests/glibc_lib.c -static
-gcc -o ./tmp/filec -e __init ./tests/file.c ./lib/core.o ./lib/lib.o -ffreestanding -nostdlib -nodefaultlibs -nostartfiles -static -z noexecstack
+# Build the standard library
+gcc -x c -ffreestanding -nostdlib -nodefaultlibs -c -std=c99 src/core.h -o tmp/core.o -D CORE_H_HEADLIB -I ./src # "-x" force language
+gcc -x c -ffreestanding -nostdlib -nodefaultlibs -c -std=c99 src/lib.h -o lib/lib.o -D CORE_H_HEADLIB -I ./src
+gcc -x c -ffreestanding -nostdlib -nodefaultlibs -c -std=c99 src/rand.h -o lib/rand.o -D CORE_H_HEADLIB -I ./src
+ld -z noexecstack -relocatable -o lib/core.o tmp/init.o tmp/syscall.o tmp/core.o
 
 # Then size them up
-cd tmp
-sizeof *
+echo "OBJECTS" && sizeof lib/*.o
+echo "LIBRARY" && sizeof lib/*.h
 cd ..
 
 # Copy the headers into the lib folder
